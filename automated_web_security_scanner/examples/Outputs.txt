@@ -1,0 +1,899 @@
+_____________________
+
+Windows Powershell 1:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> cd "D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner"
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Location
+
+Path
+----
+D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-ChildItem
+
+
+    Directory: D:\My Academics\GENERAL\PROJECTS\CS
+    PROJECT\automated_web_security_scanner_project\automated_web_security_scanner
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        20/10/2026  02:24 AM                tests
+d-----        20/10/2026  02:27 AM                __pycache__
+-a----        20/10/2026  02:30 AM           6863 DEMO_GUIDE_AND_PRESENTATION.md
+-a----        20/10/2026  02:29 AM          15573 FINAL_SUBMISSION_REPORT.md
+-a----        20/10/2026  02:33 AM          13535 New Text Document.txt
+-a----        20/10/2026  02:29 AM           4289 README.md
+-a----        20/10/2026  02:25 AM           3556 report.json
+-a----        20/10/2026  02:28 AM          15736 report_reflected.html
+-a----        20/10/2026  02:28 AM           3484 report_reflected.json
+-a----        20/10/2026  02:28 AM          15737 report_secure.html
+-a----        20/10/2026  02:28 AM           3424 report_secure.json
+-a----        20/10/2026  12:29 AM           3959 REPORT_TEMPLATE.md
+-a----        20/10/2026  02:28 AM          15797 report_vulnerable.html
+-a----        20/10/2026  02:28 AM           3566 report_vulnerable.json
+-a----        20/10/2026  12:29 AM             66 requirements.txt
+-a----        20/10/2026  02:27 AM          24090 scanner.py
+-a----        20/10/2026  02:26 AM           6926 test_server.py
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python -m unittest discover tests -v
+test_finding_contains_required_fields (test_scanner.FindingShapeTests.test_finding_contains_required_fields) ... ok
+test_cors_origin_reflection_flagged_medium (test_scanner.MockedScannerLogicTests.test_cors_origin_reflection_flagged_medium) ... ok
+test_cors_wildcard_with_credentials_flagged_high (test_scanner.MockedScannerLogicTests.test_cors_wildcard_with_credentials_flagged_high) ... ok
+test_graceful_network_failure_handling (test_scanner.MockedScannerLogicTests.test_graceful_network_failure_handling) ... ok
+test_hsts_skipped_on_plain_http (test_scanner.MockedScannerLogicTests.test_hsts_skipped_on_plain_http) ... ok
+test_scan_url_hardened_headers (test_scanner.MockedScannerLogicTests.test_scan_url_hardened_headers) ... ok
+test_scan_url_missing_headers_on_https (test_scanner.MockedScannerLogicTests.test_scan_url_missing_headers_on_https) ... ok
+test_html_report_contains_target_and_findings (test_scanner.ReportGenerationTests.test_html_report_contains_target_and_findings) ... ok
+test_adds_https_when_scheme_missing (test_scanner.URLValidationTests.test_adds_https_when_scheme_missing) ... ok
+test_keeps_https_path_and_query (test_scanner.URLValidationTests.test_keeps_https_path_and_query) ... ok
+test_rejects_embedded_credentials (test_scanner.URLValidationTests.test_rejects_embedded_credentials) ... ok
+test_rejects_missing_hostname (test_scanner.URLValidationTests.test_rejects_missing_hostname) ... ok
+test_rejects_unsupported_scheme (test_scanner.URLValidationTests.test_rejects_unsupported_scheme) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.004s
+
+OK
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://127.0.0.1:8080/vulnerable --output report_vulnerable.json --html report_vulnerable.html
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/vulnerable
+Status:    200
+Final URL: http://127.0.0.1:8080/vulnerable
+Time:      24.97 ms
+Findings:  7
+----------------------------------------------------------
+[MEDIUM] Content Security Policy (CSP) - missing
+  Evidence: No content-security-policy header was observed in the final response.
+  Advice:   Define a CSP suited to the application; begin with report-only mode if needed.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[LOW] X-Content-Type-Options - missing
+  Evidence: No x-content-type-options header was observed in the final response.
+  Advice:   Set X-Content-Type-Options: nosniff.
+[LOW] Referrer-Policy - missing
+  Evidence: No referrer-policy header was observed in the final response.
+  Advice:   Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs.
+[LOW] Permissions-Policy - missing
+  Evidence: No permissions-policy header was observed in the final response.
+  Advice:   Consider restricting browser features that the application does not need.
+[MEDIUM] Framing protection - review
+  Evidence: Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.
+  Advice:   If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options.
+[HIGH] CORS configuration - review
+  Evidence: OPTIONS response included Access-Control-Allow-Origin: * and Access-Control-Allow-Credentials: true.
+  Advice:   Review the server's CORS implementation. Browsers reject wildcard origins with credentialed requests, but this combination still warrants configuration review.
+
+JSON report saved to: report_vulnerable.json
+HTML report saved to: report_vulnerable.html
+
+Reminder: findings are indicators, not proof of exploitability.
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+
+_____________________
+
+Windows Powershell 2:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> cd "D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner"
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python test_server.py --help
+usage: test_server.py [-h] [--host HOST] [--port PORT]
+
+Mock server for web security scanner testing.
+
+options:
+  -h, --help   show this help message and exit
+  --host HOST  Host address (default: 127.0.0.1)
+  --port PORT  Port number (default: 8080)
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://localhost:8080/vulnerable --output report_vulnerable.json --html report_vulnerable.html
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://localhost:8080/vulnerable
+Status:    None
+Final URL: http://localhost:8080/vulnerable
+Time:      4224.48 ms
+Findings:  1
+----------------------------------------------------------
+[INFO] Could not retrieve target - error
+  Evidence: ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+  Advice:   Confirm the URL, network access, DNS, and TLS certificate. Do not disable certificate validation to hide TLS errors.
+
+JSON report saved to: report_vulnerable.json
+HTML report saved to: report_vulnerable.html
+
+Reminder: findings are indicators, not proof of exploitability.
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+_____________________
+
+Windows Powershell 3:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> cd "D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner"
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python test_server.py
+[*] Mock Security Test Server running at http://127.0.0.1:8080/
+[*] Test endpoints:
+    - Hardened:    http://127.0.0.1:8080/secure
+    - Misconfigured: http://127.0.0.1:8080/vulnerable
+    - Reflected CORS: http://127.0.0.1:8080/cors-reflected
+[*] Press Ctrl+C to stop.
+
+[TEST SERVER] 127.0.0.1 - "GET /vulnerable HTTP/1.1" 200 -
+[TEST SERVER] 127.0.0.1 - "OPTIONS /vulnerable HTTP/1.1" 200 -
+_____________________
+
+Windows Powershell 4:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> Test-NetConnection 127.0.0.1 -Port 8080
+
+
+ComputerName     : 127.0.0.1
+RemoteAddress    : 127.0.0.1
+RemotePort       : 8080
+InterfaceAlias   : Loopback Pseudo-Interface 1
+SourceAddress    : 127.0.0.1
+TcpTestSucceeded : True
+
+
+
+PS C:\Users\user> python scanner.py http://127.0.0.1:8080/vulnerable --output report_vulnerable.json --html report_vulnerable.html
+C:\Python314\python.exe: can't open file 'C:\\Users\\user\\scanner.py': [Errno 2] No such file or directory
+PS C:\Users\user>
+_____________________
+
+Windows Powershell 5 MAIN OUTPUT:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> cd "D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner"
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Test-Path .\scanner.py
+True
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://127.0.0.1:8080/vulnerable --output report_vulnerable.json --html report_vulnerable.html
+>> python scanner.py http://127.0.0.1:8080/secure --output report_secure.json --html report_secure.html
+>> python scanner.py http://127.0.0.1:8080/cors-reflected --output report_reflected.json --html report_reflected.html
+>>
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/vulnerable
+Status:    200
+Final URL: http://127.0.0.1:8080/vulnerable
+Time:      25.6 ms
+Findings:  7
+----------------------------------------------------------
+[MEDIUM] Content Security Policy (CSP) - missing
+  Evidence: No content-security-policy header was observed in the final response.
+  Advice:   Define a CSP suited to the application; begin with report-only mode if needed.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[LOW] X-Content-Type-Options - missing
+  Evidence: No x-content-type-options header was observed in the final response.
+  Advice:   Set X-Content-Type-Options: nosniff.
+[LOW] Referrer-Policy - missing
+  Evidence: No referrer-policy header was observed in the final response.
+  Advice:   Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs.
+[LOW] Permissions-Policy - missing
+  Evidence: No permissions-policy header was observed in the final response.
+  Advice:   Consider restricting browser features that the application does not need.
+[MEDIUM] Framing protection - review
+  Evidence: Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.
+  Advice:   If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options.
+[HIGH] CORS configuration - review
+  Evidence: OPTIONS response included Access-Control-Allow-Origin: * and Access-Control-Allow-Credentials: true.
+  Advice:   Review the server's CORS implementation. Browsers reject wildcard origins with credentialed requests, but this combination still warrants configuration review.
+
+JSON report saved to: report_vulnerable.json
+HTML report saved to: report_vulnerable.html
+
+Reminder: findings are indicators, not proof of exploitability.
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/secure
+Status:    200
+Final URL: http://127.0.0.1:8080/secure
+Time:      21.85 ms
+Findings:  7
+----------------------------------------------------------
+[INFO] Content Security Policy (CSP) - present
+  Evidence: content-security-policy: default-src 'self'; script-src 'self'; object-src 'none';
+  Advice:   Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[INFO] X-Content-Type-Options - present
+  Evidence: x-content-type-options: nosniff
+  Advice:   Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration.
+[INFO] Referrer-Policy - present
+  Evidence: referrer-policy: strict-origin-when-cross-origin
+  Advice:   Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration.
+[INFO] Permissions-Policy - present
+  Evidence: permissions-policy: geolocation=(), camera=(), microphone=()
+  Advice:   Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration.
+[INFO] Framing protection - present
+  Evidence: X-Frame-Options or CSP frame-ancestors was observed.
+  Advice:   Confirm the framing policy matches the site's intended embedding behavior.
+[INFO] CORS configuration - observed
+  Evidence: Access-Control-Allow-Origin: https://trusted.example.com
+  Advice:   Compare the allowed origin against the application's intended allowlist.
+
+JSON report saved to: report_secure.json
+HTML report saved to: report_secure.html
+
+Reminder: findings are indicators, not proof of exploitability.
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/cors-reflected
+Status:    200
+Final URL: http://127.0.0.1:8080/cors-reflected
+Time:      27.62 ms
+Findings:  7
+----------------------------------------------------------
+[MEDIUM] Content Security Policy (CSP) - missing
+  Evidence: No content-security-policy header was observed in the final response.
+  Advice:   Define a CSP suited to the application; begin with report-only mode if needed.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[LOW] X-Content-Type-Options - missing
+  Evidence: No x-content-type-options header was observed in the final response.
+  Advice:   Set X-Content-Type-Options: nosniff.
+[LOW] Referrer-Policy - missing
+  Evidence: No referrer-policy header was observed in the final response.
+  Advice:   Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs.
+[LOW] Permissions-Policy - missing
+  Evidence: No permissions-policy header was observed in the final response.
+  Advice:   Consider restricting browser features that the application does not need.
+[MEDIUM] Framing protection - review
+  Evidence: Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.
+  Advice:   If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options.
+[MEDIUM] CORS configuration - review
+  Evidence: The server reflected the test origin: https://scanner-test.invalid.
+  Advice:   Check whether origin reflection is restricted to an explicit allowlist and whether sensitive endpoints use credentials.
+
+JSON report saved to: report_reflected.json
+HTML report saved to: report_reflected.html
+
+Reminder: findings are indicators, not proof of exploitability.
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-ChildItem report_vulnerable.json, report_secure.json, report_reflected.json, report_vulnerable.html, report_secure.html, report_reflected.html
+
+
+    Directory: D:\My Academics\GENERAL\PROJECTS\CS
+    PROJECT\automated_web_security_scanner_project\automated_web_security_scanner
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        21/10/2026  12:44 AM           3563 report_vulnerable.json
+-a----        21/10/2026  12:44 AM           3423 report_secure.json
+-a----        21/10/2026  12:44 AM           3483 report_reflected.json
+-a----        21/10/2026  12:44 AM          15794 report_vulnerable.html
+-a----        21/10/2026  12:44 AM          15736 report_secure.html
+-a----        21/10/2026  12:44 AM          15735 report_reflected.html
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Content .\report_vulnerable.json
+{
+  "scanner": "Bootcamp Automated Web Security Scanner",
+  "version": "1.0",
+  "scanned_at_utc": "2026-10-20T19:14:28.327967+00:00",
+  "target": "http://127.0.0.1:8080/vulnerable",
+  "http": {
+    "status_code": 200,
+    "final_url": "http://127.0.0.1:8080/vulnerable",
+    "elapsed_ms": 25.6,
+    "https": false
+  },
+  "findings": [
+    {
+      "check": "content-security-policy",
+      "title": "Content Security Policy (CSP)",
+      "severity": "medium",
+      "status": "missing",
+      "evidence": "No content-security-policy header was observed in the final response.",
+      "recommendation": "Define a CSP suited to the application; begin with report-only mode if needed."
+    },
+    {
+      "check": "strict-transport-security",
+      "title": "HTTP Strict Transport Security (HSTS)",
+      "severity": "info",
+      "status": "not_applicable",
+      "evidence": "Final response URL is not HTTPS.",
+      "recommendation": "HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS."
+    },
+    {
+      "check": "x-content-type-options",
+      "title": "X-Content-Type-Options",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No x-content-type-options header was observed in the final response.",
+      "recommendation": "Set X-Content-Type-Options: nosniff."
+    },
+    {
+      "check": "referrer-policy",
+      "title": "Referrer-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No referrer-policy header was observed in the final response.",
+      "recommendation": "Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs."
+    },
+    {
+      "check": "permissions-policy",
+      "title": "Permissions-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No permissions-policy header was observed in the final response.",
+      "recommendation": "Consider restricting browser features that the application does not need."
+    },
+    {
+      "check": "clickjacking_protection",
+      "title": "Framing protection",
+      "severity": "medium",
+      "status": "review",
+      "evidence": "Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.",
+      "recommendation": "If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options."
+    },
+    {
+      "check": "cors",
+      "title": "CORS configuration",
+      "severity": "high",
+      "status": "review",
+      "evidence": "OPTIONS response included Access-Control-Allow-Origin: * and Access-Control-Allow-Credentials: true.",
+      "recommendation": "Review the server's CORS implementation. Browsers reject wildcard origins with credentialed requests, but this combination still warrants configuration review."
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "by_severity": {
+      "medium": 2,
+      "info": 1,
+      "low": 3,
+      "high": 1
+    },
+    "by_status": {
+      "missing": 4,
+      "not_applicable": 1,
+      "review": 2
+    }
+  },
+  "limitations": [
+    "Only one GET request and one OPTIONS request are sent; this is not a crawler.",
+    "The scanner does not test authentication, authorization, application logic, injection, or exploitability.",
+    "Header presence is not proof that a policy is correctly configured.",
+    "CORS behavior may vary by endpoint and request; manual review is required.",
+    "Run only against systems you own or have explicit permission to assess."
+  ]
+}
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Start-Process .\report_vulnerable.html
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+
+_____________________
+
+Windows Powershell 6 TEST CHECK:
+_____________________
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\user> cd "D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner"
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Select-String -Path .\test_server.py -Pattern "vulnerable|secure|cors|Access-Control-Allow|def do_OPTIONS|def do_GET"
+
+test_server.py:4:Provides predefined endpoints with known security header and CORS configurations:
+test_server.py:5:  - http://localhost:8080/secure          (Hardened headers, strict CORS)
+test_server.py:6:  - http://localhost:8080/vulnerable      (Missing headers, dangerous wildcard CORS)
+test_server.py:7:  - http://localhost:8080/cors-reflected  (Reflects incoming Origin header)
+test_server.py:30:    def do_GET(self):
+test_server.py:33:    def do_OPTIONS(self):
+test_server.py:37:        if path == "/secure":
+test_server.py:39:            self.send_header("Access-Control-Allow-Origin", "https://trusted.example.com")
+test_server.py:40:            self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+test_server.py:41:            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+test_server.py:44:        elif path == "/vulnerable":
+test_server.py:47:            self.send_header("Access-Control-Allow-Origin", "*")
+test_server.py:48:            self.send_header("Access-Control-Allow-Credentials", "true")
+test_server.py:49:            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+test_server.py:51:        elif path == "/cors-reflected":
+test_server.py:55:                self.send_header("Access-Control-Allow-Origin", origin)
+test_server.py:56:                self.send_header("Access-Control-Allow-Credentials", "true")
+test_server.py:60:            # Default: no CORS headers
+test_server.py:69:        if path == "/secure":
+test_server.py:70:            content = b"<html><body><h1>Secure Endpoint</h1><p>All recommended headers
+present.</p></body></html>"
+test_server.py:81:            self.send_header("Access-Control-Allow-Origin", "https://trusted.example.com")
+test_server.py:86:        elif path == "/vulnerable":
+test_server.py:87:            content = b"<html><body><h1>Vulnerable Endpoint</h1><p>Missing security headers & loose
+CORS.</p></body></html>"
+test_server.py:92:            self.send_header("Access-Control-Allow-Origin", "*")
+test_server.py:97:        elif path == "/cors-reflected":
+test_server.py:104:                self.send_header("Access-Control-Allow-Origin", origin)
+test_server.py:105:                self.send_header("Access-Control-Allow-Credentials", "true")
+test_server.py:116:                b"<li><a href='/secure'>/secure</a> - Fully configured security headers and strict
+CORS</li>"
+test_server.py:117:                b"<li><a href='/vulnerable'>/vulnerable</a> - Missing headers and wildcard CORS
+(*)</li>"
+test_server.py:118:                b"<li><a href='/cors-reflected'>/cors-reflected</a> - Reflects request Origin</li>"
+test_server.py:135:    print(f"    - Hardened:    http://{host}:{port}/secure")
+test_server.py:136:    print(f"    - Misconfigured: http://{host}:{port}/vulnerable")
+test_server.py:137:    print(f"    - Reflected CORS: http://{host}:{port}/cors-reflected")
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> curl.exe -i http://127.0.0.1:8080/vulnerable
+HTTP/1.0 200 OK
+Server: MockTestServer/1.0 Python/3.14.5
+Date: Tue, 20 Oct 2026 19:36:53 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 99
+Access-Control-Allow-Origin: *
+
+<html><body><h1>Vulnerable Endpoint</h1><p>Missing security headers & loose CORS.</p></body></html>
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> curl.exe -i -X OPTIONS http://127.0.0.1:8080/vulnerable -H "Origin: https://scanner-test.invalid" -H "Access-Control-Request-Method: GET" -H "Access-Control-Request-Headers: content-type"curl.exe -i -X OPTIONS http://127.0.0.1:8080/vulnerable -H "Origin: https://scanner-test.invalid" -H "Access-Control-Request-Method: GET" -H "Access-Control-Request-Headers: content-type"
+HTTP/1.0 200 OK
+Server: MockTestServer/1.0 Python/3.14.5
+Date: Tue, 20 Oct 2026 19:37:26 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+
+curl: (6) Could not resolve host: curl.exe
+HTTP/1.0 200 OK
+Server: MockTestServer/1.0 Python/3.14.5
+Date: Tue, 20 Oct 2026 19:37:26 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner>
+
+
+_____________________
+
+Windows Powershell 7 TEST CHECK:
+_____________________
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://127.0.0.1:8080/vulnerable --output report_vulnerable.json --html report_vulnerable.html
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/vulnerable
+Status:    200
+Final URL: http://127.0.0.1:8080/vulnerable
+Time:      45.33 ms
+Findings:  7
+----------------------------------------------------------
+[MEDIUM] Content Security Policy (CSP) - missing
+  Evidence: No content-security-policy header was observed in the final response.
+  Advice:   Define a CSP suited to the application; begin with report-only mode if needed.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[LOW] X-Content-Type-Options - missing
+  Evidence: No x-content-type-options header was observed in the final response.
+  Advice:   Set X-Content-Type-Options: nosniff.
+[LOW] Referrer-Policy - missing
+  Evidence: No referrer-policy header was observed in the final response.
+  Advice:   Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs.
+[LOW] Permissions-Policy - missing
+  Evidence: No permissions-policy header was observed in the final response.
+  Advice:   Consider restricting browser features that the application does not need.
+[MEDIUM] Framing protection - review
+  Evidence: Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.
+  Advice:   If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options.
+[HIGH] CORS configuration - review
+  Evidence: OPTIONS response included Access-Control-Allow-Origin: * and Access-Control-Allow-Credentials: true.
+  Advice:   Review the server's CORS implementation. Browsers reject wildcard origins with credentialed requests, but this combination still warrants configuration review.
+
+JSON report saved to: report_vulnerable.json
+HTML report saved to: report_vulnerable.html
+
+Reminder: findings are indicators, not proof of exploitability.
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://127.0.0.1:8080/secure --output report_secure.json --html report_secure.htmlpython scanner.py http://127.0.0.1:8080/secure --output report_secure.json --html report_secure.html
+usage: scanner.py [-h] [--timeout TIMEOUT] [--output OUTPUT] [--html HTML] url
+scanner.py: error: unrecognized arguments: scanner.py http://127.0.0.1:8080/secure
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> python scanner.py http://127.0.0.1:8080/cors-reflected --output report_reflected.json --html report_reflected.html
+
+Bootcamp Automated Web Security Scanner v1.0
+==========================================================
+Target:    http://127.0.0.1:8080/cors-reflected
+Status:    200
+Final URL: http://127.0.0.1:8080/cors-reflected
+Time:      26.46 ms
+Findings:  7
+----------------------------------------------------------
+[MEDIUM] Content Security Policy (CSP) - missing
+  Evidence: No content-security-policy header was observed in the final response.
+  Advice:   Define a CSP suited to the application; begin with report-only mode if needed.
+[INFO] HTTP Strict Transport Security (HSTS) - not_applicable
+  Evidence: Final response URL is not HTTPS.
+  Advice:   HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS.
+[LOW] X-Content-Type-Options - missing
+  Evidence: No x-content-type-options header was observed in the final response.
+  Advice:   Set X-Content-Type-Options: nosniff.
+[LOW] Referrer-Policy - missing
+  Evidence: No referrer-policy header was observed in the final response.
+  Advice:   Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs.
+[LOW] Permissions-Policy - missing
+  Evidence: No permissions-policy header was observed in the final response.
+  Advice:   Consider restricting browser features that the application does not need.
+[MEDIUM] Framing protection - review
+  Evidence: Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.
+  Advice:   If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options.
+[MEDIUM] CORS configuration - review
+  Evidence: The server reflected the test origin: https://scanner-test.invalid.
+  Advice:   Check whether origin reflection is restricted to an explicit allowlist and whether sensitive endpoints use credentials.
+
+JSON report saved to: report_reflected.json
+HTML report saved to: report_reflected.html
+
+Reminder: findings are indicators, not proof of exploitability.
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-ChildItem report_vulnerable.*, report_secure.*, report_reflected.*
+
+
+    Directory: D:\My Academics\GENERAL\PROJECTS\CS
+    PROJECT\automated_web_security_scanner_project\automated_web_security_scanner
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        21/10/2026  01:14 AM          15795 report_vulnerable.html
+-a----        21/10/2026  01:14 AM           3564 report_vulnerable.json
+-a----        21/10/2026  12:44 AM          15736 report_secure.html
+-a----        21/10/2026  12:44 AM           3423 report_secure.json
+-a----        21/10/2026  01:15 AM          15735 report_reflected.html
+-a----        21/10/2026  01:15 AM           3483 report_reflected.json
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Start-Process .\report_vulnerable.html
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Start-Process .\report_secure.html
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Start-Process .\report_reflected.html
+
+_____________________
+
+Windows Powershell 8 TEST CHECK:
+_____________________
+
+
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Content .\report_vulnerable.json -Raw
+{
+  "scanner": "Bootcamp Automated Web Security Scanner",
+  "version": "1.0",
+  "scanned_at_utc": "2026-10-20T19:44:03.987310+00:00",
+  "target": "http://127.0.0.1:8080/vulnerable",
+  "http": {
+    "status_code": 200,
+    "final_url": "http://127.0.0.1:8080/vulnerable",
+    "elapsed_ms": 45.33,
+    "https": false
+  },
+  "findings": [
+    {
+      "check": "content-security-policy",
+      "title": "Content Security Policy (CSP)",
+      "severity": "medium",
+      "status": "missing",
+      "evidence": "No content-security-policy header was observed in the final response.",
+      "recommendation": "Define a CSP suited to the application; begin with report-only mode if needed."
+    },
+    {
+      "check": "strict-transport-security",
+      "title": "HTTP Strict Transport Security (HSTS)",
+      "severity": "info",
+      "status": "not_applicable",
+      "evidence": "Final response URL is not HTTPS.",
+      "recommendation": "HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS."
+    },
+    {
+      "check": "x-content-type-options",
+      "title": "X-Content-Type-Options",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No x-content-type-options header was observed in the final response.",
+      "recommendation": "Set X-Content-Type-Options: nosniff."
+    },
+    {
+      "check": "referrer-policy",
+      "title": "Referrer-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No referrer-policy header was observed in the final response.",
+      "recommendation": "Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs."
+    },
+    {
+      "check": "permissions-policy",
+      "title": "Permissions-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No permissions-policy header was observed in the final response.",
+      "recommendation": "Consider restricting browser features that the application does not need."
+    },
+    {
+      "check": "clickjacking_protection",
+      "title": "Framing protection",
+      "severity": "medium",
+      "status": "review",
+      "evidence": "Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.",
+      "recommendation": "If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options."
+    },
+    {
+      "check": "cors",
+      "title": "CORS configuration",
+      "severity": "high",
+      "status": "review",
+      "evidence": "OPTIONS response included Access-Control-Allow-Origin: * and Access-Control-Allow-Credentials: true.",
+      "recommendation": "Review the server's CORS implementation. Browsers reject wildcard origins with credentialed requests, but this combination still warrants configuration review."
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "by_severity": {
+      "medium": 2,
+      "info": 1,
+      "low": 3,
+      "high": 1
+    },
+    "by_status": {
+      "missing": 4,
+      "not_applicable": 1,
+      "review": 2
+    }
+  },
+  "limitations": [
+    "Only one GET request and one OPTIONS request are sent; this is not a crawler.",
+    "The scanner does not test authentication, authorization, application logic, injection, or exploitability.",
+    "Header presence is not proof that a policy is correctly configured.",
+    "CORS behavior may vary by endpoint and request; manual review is required.",
+    "Run only against systems you own or have explicit permission to assess."
+  ]
+}
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Content .\report_secure.json -RawGet-Content .\report_secure.json -Raw
+Get-Content : A parameter cannot be found that matches parameter name 'RawGet-Content'.
+At line:1 char:34
++ Get-Content .\report_secure.json -RawGet-Content .\report_secure.json ...
++                                  ~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Content], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Content .\report_reflected.json -Raw
+{
+  "scanner": "Bootcamp Automated Web Security Scanner",
+  "version": "1.0",
+  "scanned_at_utc": "2026-10-20T19:45:04.959272+00:00",
+  "target": "http://127.0.0.1:8080/cors-reflected",
+  "http": {
+    "status_code": 200,
+    "final_url": "http://127.0.0.1:8080/cors-reflected",
+    "elapsed_ms": 26.46,
+    "https": false
+  },
+  "findings": [
+    {
+      "check": "content-security-policy",
+      "title": "Content Security Policy (CSP)",
+      "severity": "medium",
+      "status": "missing",
+      "evidence": "No content-security-policy header was observed in the final response.",
+      "recommendation": "Define a CSP suited to the application; begin with report-only mode if needed."
+    },
+    {
+      "check": "strict-transport-security",
+      "title": "HTTP Strict Transport Security (HSTS)",
+      "severity": "info",
+      "status": "not_applicable",
+      "evidence": "Final response URL is not HTTPS.",
+      "recommendation": "HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS."
+    },
+    {
+      "check": "x-content-type-options",
+      "title": "X-Content-Type-Options",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No x-content-type-options header was observed in the final response.",
+      "recommendation": "Set X-Content-Type-Options: nosniff."
+    },
+    {
+      "check": "referrer-policy",
+      "title": "Referrer-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No referrer-policy header was observed in the final response.",
+      "recommendation": "Set a deliberate Referrer-Policy, such as strict-origin-when-cross-origin, based on application needs."
+    },
+    {
+      "check": "permissions-policy",
+      "title": "Permissions-Policy",
+      "severity": "low",
+      "status": "missing",
+      "evidence": "No permissions-policy header was observed in the final response.",
+      "recommendation": "Consider restricting browser features that the application does not need."
+    },
+    {
+      "check": "clickjacking_protection",
+      "title": "Framing protection",
+      "severity": "medium",
+      "status": "review",
+      "evidence": "Neither X-Frame-Options nor a CSP frame-ancestors directive was observed.",
+      "recommendation": "If the site should not be embedded by arbitrary origins, configure CSP frame-ancestors or X-Frame-Options."
+    },
+    {
+      "check": "cors",
+      "title": "CORS configuration",
+      "severity": "medium",
+      "status": "review",
+      "evidence": "The server reflected the test origin: https://scanner-test.invalid.",
+      "recommendation": "Check whether origin reflection is restricted to an explicit allowlist and whether sensitive endpoints use credentials."
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "by_severity": {
+      "medium": 3,
+      "info": 1,
+      "low": 3
+    },
+    "by_status": {
+      "missing": 4,
+      "not_applicable": 1,
+      "review": 2
+    }
+  },
+  "limitations": [
+    "Only one GET request and one OPTIONS request are sent; this is not a crawler.",
+    "The scanner does not test authentication, authorization, application logic, injection, or exploitability.",
+    "Header presence is not proof that a policy is correctly configured.",
+    "CORS behavior may vary by endpoint and request; manual review is required.",
+    "Run only against systems you own or have explicit permission to assess."
+  ]
+}
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> Get-Content .\report_secure.json -Raw
+{
+  "scanner": "Bootcamp Automated Web Security Scanner",
+  "version": "1.0",
+  "scanned_at_utc": "2026-10-20T19:14:28.528431+00:00",
+  "target": "http://127.0.0.1:8080/secure",
+  "http": {
+    "status_code": 200,
+    "final_url": "http://127.0.0.1:8080/secure",
+    "elapsed_ms": 21.85,
+    "https": false
+  },
+  "findings": [
+    {
+      "check": "content-security-policy",
+      "title": "Content Security Policy (CSP)",
+      "severity": "info",
+      "status": "present",
+      "evidence": "content-security-policy: default-src 'self'; script-src 'self'; object-src 'none';",
+      "recommendation": "Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration."
+    },
+    {
+      "check": "strict-transport-security",
+      "title": "HTTP Strict Transport Security (HSTS)",
+      "severity": "info",
+      "status": "not_applicable",
+      "evidence": "Final response URL is not HTTPS.",
+      "recommendation": "HSTS is delivered over HTTPS; configure HTTPS first, then review HSTS."
+    },
+    {
+      "check": "x-content-type-options",
+      "title": "X-Content-Type-Options",
+      "severity": "info",
+      "status": "present",
+      "evidence": "x-content-type-options: nosniff",
+      "recommendation": "Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration."
+    },
+    {
+      "check": "referrer-policy",
+      "title": "Referrer-Policy",
+      "severity": "info",
+      "status": "present",
+      "evidence": "referrer-policy: strict-origin-when-cross-origin",
+      "recommendation": "Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration."
+    },
+    {
+      "check": "permissions-policy",
+      "title": "Permissions-Policy",
+      "severity": "info",
+      "status": "present",
+      "evidence": "permissions-policy: geolocation=(), camera=(), microphone=()",
+      "recommendation": "Review the policy for correctness and compatibility; presence alone does not guarantee a safe configuration."
+    },
+    {
+      "check": "clickjacking_protection",
+      "title": "Framing protection",
+      "severity": "info",
+      "status": "present",
+      "evidence": "X-Frame-Options or CSP frame-ancestors was observed.",
+      "recommendation": "Confirm the framing policy matches the site's intended embedding behavior."
+    },
+    {
+      "check": "cors",
+      "title": "CORS configuration",
+      "severity": "info",
+      "status": "observed",
+      "evidence": "Access-Control-Allow-Origin: https://trusted.example.com",
+      "recommendation": "Compare the allowed origin against the application's intended allowlist."
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "by_severity": {
+      "info": 7
+    },
+    "by_status": {
+      "present": 5,
+      "not_applicable": 1,
+      "observed": 1
+    }
+  },
+  "limitations": [
+    "Only one GET request and one OPTIONS request are sent; this is not a crawler.",
+    "The scanner does not test authentication, authorization, application logic, injection, or exploitability.",
+    "Header presence is not proof that a policy is correctly configured.",
+    "CORS behavior may vary by endpoint and request; manual review is required.",
+    "Run only against systems you own or have explicit permission to assess."
+  ]
+}
+PS D:\My Academics\GENERAL\PROJECTS\CS PROJECT\automated_web_security_scanner_project\automated_web_security_scanner> foreach ($file in @("report_vulnerable.json", "report_secure.json", "report_reflected.json")) {
+>>     Write-Host "`n========== $file ==========" -ForegroundColor Cyan
+>>
+>>     $report = Get-Content ".\$file" -Raw | ConvertFrom-Json
+>>
+>>     Write-Host "Target:" $report.target
+>>     Write-Host "HTTP Status:" $report.status_code
+>>     Write-Host "Summary:"
+>>     $report.summary | ConvertTo-Json -Depth 5
+>>
+>>     Write-Host "Findings:"
+>>     $report.findings |
+>>         Select-Object check, title, severity, status |
+>>         Format-Table -AutoSize
+>> }
